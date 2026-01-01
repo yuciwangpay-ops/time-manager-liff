@@ -1,55 +1,138 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>時間分配助手</title>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f4f7f6; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        h2 { color: #333; }
-        .input-container { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; width: 90%; max-width: 300px; text-align: center; }
-        input { width: 60px; font-size: 18px; padding: 5px; border: 1px solid #ddd; border-radius: 5px; text-align: center; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 400px; }
-        button { padding: 15px; font-size: 16px; border: none; border-radius: 10px; color: white; cursor: pointer; transition: 0.2s; }
-        button:active { transform: scale(0.95); }
-        /* 不同任務給予不同顏色 */
-        .btn-study { background-color: #4a90e2; }
-        .btn-exercise { background-color: #f5a623; }
-        .btn-housework { background-color: #7ed321; }
-        .btn-work { background-color: #333; }
-        .btn-play { background-color: #9013fe; }
-        .btn-rest { background-color: #9b9b9b; }
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        /* 填空式句子的樣式 */
+        .sentence-container {
+            font-size: 20px;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 讓輸入框看起來像文字的一部分 */
+        input#duration {
+            width: 70px;
+            height: 40px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #00B900;
+            /* LINE 綠 */
+            text-align: center;
+            border: none;
+            border-bottom: 3px solid #00B900;
+            background: transparent;
+            outline: none;
+        }
+
+        .guide-text {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* 按鈕網格系統 */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        /* 點擊時的縮放回饋 */
+        button:active {
+            transform: scale(0.92);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 精緻的顏色配置 */
+        .btn-study {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-work {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+        }
+
+        .btn-exercise {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-housework {
+            background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+
+        .btn-rest {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        }
     </style>
 </head>
+
 <body>
     <h2 id="welcome">載入中...</h2>
 
-    <div class="input-container">
-        <label>這項任務花了多久？</label><br>
-        <input type="number" id="duration" value="30"> 分鐘
+    <div class="sentence-container">
+        <span>我剛剛</span>
+        <input type="number" id="duration" value="30">
+        <span>分鐘</span>
     </div>
+
+    <p class="guide-text">做了什麼呢？</p>
 
     <div class="btn-grid">
         <button class="btn-study" onclick="sendTime('學習')">📚 學習</button>
+        <button class="btn-work" onclick="sendTime('工作')">💻 工作</button>
         <button class="btn-exercise" onclick="sendTime('和緩運動')">🧘 和緩</button>
         <button class="btn-exercise" onclick="sendTime('激烈運動')">🏋️ 激烈</button>
         <button class="btn-housework" onclick="sendTime('家務')">🧹 家務</button>
         <button class="btn-play" onclick="sendTime('娛樂')">🎮 娛樂</button>
-        <button class="btn-work" onclick="sendTime('工作')">💻 工作</button>
         <button class="btn-rest" onclick="sendTime('休息')" style="grid-column: span 2;">☕ 休息</button>
     </div>
-    
+
     <script>
         async function main() {
             // 初始化 LIFF，填入你在後台申請的 LIFF ID
-            await liff.init({ liffId: "2008804901-1rsNMJIO" }); 
+            await liff.init({ liffId: "2008804901-1rsNMJIO" });
             if (liff.isLoggedIn()) {
                 const profile = await liff.getProfile();
                 document.getElementById('welcome').innerText = "嗨, " + profile.displayName;
                 // 在你的程式碼第 21 行之後加入以下內容：
                 if (!liff.getScope().includes('chat_message.write')) {
-                   alert('偵測到缺少發送訊息權限，請重新點擊連結並同意授權！');
+                    alert('偵測到缺少發送訊息權限，請重新點擊連結並同意授權！');
                 }
             } else {
                 liff.login(); // 引導登入
@@ -103,15 +186,21 @@
              }
         }
         */
-/////////////////////////
+        /////////////////////////
         // ... 前面的 main() 函式保持不變 ...
         async function sendTime(task) {
+            const durationInput = document.getElementById('duration');
+            const duration = durationInput.value;
+
+            if (!duration || duration <= 0) {
+                alert("請輸入有效的時間喔！");
+                return;
+            }
+
             try {
                 const profile = await liff.getProfile();
-                const duration = document.getElementById('duration').value || 0; // 取得分鐘數
-                
                 document.body.style.opacity = "0.5";
-                
+
                 await fetch("https://script.google.com/macros/s/AKfycbwUEkZU7mP3A5PFyDO7uvcQm5Eil7JbECe_Sj1kcDR7LS6nwAu7fXhps55tIKOzja5B/exec", {
                     method: "POST",
                     mode: "no-cors",
@@ -120,18 +209,18 @@
                         userName: profile.displayName,
                         userId: profile.userId,
                         task: task,
-                        duration: duration // 把分鐘數傳給 Google
+                        duration: duration
                     })
                 });
 
-                alert(`紀錄成功：${task} ${duration} 分鐘`);
                 liff.closeWindow();
             } catch (error) {
-                alert('存檔失敗: ' + error);
+                alert('紀錄失敗：' + error);
                 document.body.style.opacity = "1";
             }
         }
         main();
     </script>
 </body>
+
 </html>
