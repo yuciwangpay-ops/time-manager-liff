@@ -42,11 +42,11 @@
             outline: none;
         }
 
-        .guide-text {
+        /* .guide-text {
             color: #888;
             font-size: 14px;
             margin-bottom: 25px;
-        }
+        } */
 
         /* 按鈕網格系統 */
         .btn-grid {
@@ -58,7 +58,7 @@
         }
 
         button {
-            height: 60px;
+            height: 55px;
             font-size: 16px;
             font-weight: bold;
             border: none;
@@ -124,17 +124,17 @@
     <div class="sentence-container">
         <span>剛剛的</span>
         <input type="number" id="duration" value="30">
-        <span>分鐘</span>
+        <span>分鐘做了.....</span>
     </div>
 
-    <p class="guide-text">做了.....</p>
+    <!-- <p class="guide-text">做了.....</p> -->
 
     <div class="btn-grid">
         <button class="btn-social" onclick="sendTime('社交')">🤝 社交</button>
         <button class="btn-play" onclick="sendTime('娛樂')">🎮 娛樂</button>
 
-        <button class="btn-exercise" onclick="sendTime('激烈運動')">🏋️ 激烈</button>
-        <button class="btn-exercise" onclick="sendTime('和緩運動')">🧘 和緩</button>
+        <button class="btn-exercise" onclick="sendTime('激烈運動')">🏋️ 激烈運動</button>
+        <button class="btn-exercise" onclick="sendTime('和緩運動')">🧘 和緩運動</button>
 
         <button class="btn-transport" onclick="sendTime('交通')">🚗 交通</button>
         <button class="btn-housework" onclick="sendTime('家務')">🧹 家務</button>
@@ -142,8 +142,8 @@
         <button class="btn-study" onclick="sendTime('學習')">📚 學習</button>
         <button class="btn-work" onclick="sendTime('工作')">💻 工作</button>
 
-        <button class="btn-zoning-out" onclick="sendTime('放空')" style="grid-column: span 2;">😶‍🌫️ 放空</button>
-        <button class="btn-sleep" onclick="sendTime('睡眠')" style="grid-column: span 2;">😴 睡眠</button>
+        <button class="btn-zoning-out" onclick="sendTime('放空')">😶‍🌫️ 放空</button>
+        <button class="btn-sleep" onclick="sendTime('睡眠')">😴 睡眠</button>
     </div>
 
     <script>
