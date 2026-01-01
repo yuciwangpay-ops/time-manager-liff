@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>時間分配助手</title>
+    <title>時間紀錄助手</title>
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         body {
@@ -85,7 +85,7 @@
         }
 
         .btn-exercise {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #6cc15f 0%, #1a6d2c 100%);
         }
 
         .btn-housework {
@@ -96,8 +96,24 @@
             background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
         }
 
-        .btn-rest {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        /* 社交 (粉紅溫暖) */
+        .btn-social {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        /* 交通 (淺灰藍 - 穩定流動感) */
+        .btn-transport {
+            background: linear-gradient(135deg, #6aa0f5 0%, #c2e9fb 100%);
+        }
+
+        /* 放空 (淺紫/雲朵感 - 夢幻空靈) */
+        .btn-zoning-out {
+            background: linear-gradient(135deg, #d2b7eb 0%, #b516dc 100%);
+        }
+
+        /* 睡眠 (深藍/星空感 - 深度修復) */
+        .btn-sleep {
+            background: linear-gradient(135deg, #09203f 0%, #537895 100%);
         }
     </style>
 </head>
@@ -106,21 +122,28 @@
     <h2 id="welcome">載入中...</h2>
 
     <div class="sentence-container">
-        <span>我剛剛</span>
+        <span>剛剛的</span>
         <input type="number" id="duration" value="30">
         <span>分鐘</span>
     </div>
 
-    <p class="guide-text">做了什麼呢？</p>
+    <p class="guide-text">做了.....</p>
 
     <div class="btn-grid">
+        <button class="btn-social" onclick="sendTime('社交')">🤝 社交</button>
+        <button class="btn-play" onclick="sendTime('娛樂')">🎮 娛樂</button>
+
+        <button class="btn-exercise" onclick="sendTime('激烈運動')">🏋️ 激烈</button>
+        <button class="btn-exercise" onclick="sendTime('和緩運動')">🧘 和緩</button>
+
+        <button class="btn-transport" onclick="sendTime('交通')">🚗 交通</button>
+        <button class="btn-housework" onclick="sendTime('家務')">🧹 家務</button>
+
         <button class="btn-study" onclick="sendTime('學習')">📚 學習</button>
         <button class="btn-work" onclick="sendTime('工作')">💻 工作</button>
-        <button class="btn-exercise" onclick="sendTime('和緩運動')">🧘 和緩</button>
-        <button class="btn-exercise" onclick="sendTime('激烈運動')">🏋️ 激烈</button>
-        <button class="btn-housework" onclick="sendTime('家務')">🧹 家務</button>
-        <button class="btn-play" onclick="sendTime('娛樂')">🎮 娛樂</button>
-        <button class="btn-rest" onclick="sendTime('休息')" style="grid-column: span 2;">☕ 休息</button>
+
+        <button class="btn-zoning-out" onclick="sendTime('放空')" style="grid-column: span 2;">😶‍🌫️ 放空</button>
+        <button class="btn-sleep" onclick="sendTime('睡眠')" style="grid-column: span 2;">😴 睡眠</button>
     </div>
 
     <script>
